@@ -1,0 +1,10 @@
+backup_directory="/home/youssef/Desktop"
+timestamp=$(date +"%Y%m%d%H%M%S")
+backup_filename="home_backup_$timestamp.tar.gz"
+home_directory="/home"
+
+mkdir -p "$backup_directory"
+
+tar -czf "$backup_directory/$backup_filename" --absolute-names "$home_directory"
+
+echo "Backup completed: $backup_directory/$backup_filename"

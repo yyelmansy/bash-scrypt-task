@@ -1,0 +1,20 @@
+if file --mime-type "$file" | grep -q "image\|audio\|video"; then
+        mediainfo "$file"
+        echo "-----------------------------------------"
+    fi
+    # Display ASCII strings using Strings
+    strings "$file"
+    echo "-----------------------------------------"
+}
+
+# Iterate through files in the directory and analyze
+for file in "$directory"/*; do
+    [ -f "$file" ] && analyze_file "$file"
+done
+
+# Capture network traffic using Tcpdump
+echo "Capturing network traffic on interface: $network_interface"
+sudo tcpdump -i "$network_interface" -c 5 -w tcpdump_output.pcap
+echo "Network traffic captured and saved to tcpdump_output.pcap"
+echo "-----------------------------------------"
+echo "Analysis completed successfully."

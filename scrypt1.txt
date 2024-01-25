@@ -1,0 +1,8 @@
+echo "enter you file with the path "
+read file
+size=$(du -h $file|cut -f1)
+echo "the size of the file is : $size"
+type=$( file $file) 
+echo "the type of the file is : $type "
+permmisions=$(ls -l $file|cut -d' ' -f1)
+echo "the permissions of the file is : $permmisions "

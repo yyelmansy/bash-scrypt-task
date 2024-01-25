@@ -1,0 +1,35 @@
+length=12
+use_upper=false
+use_numbers=false
+use_special=false
+
+while getopts "l:uns" opt; do
+    case $opt in
+        l) length="$OPTARG";;
+        u) use_upper=true;;
+        n) use_numbers=true;;
+        s) use_special=true;;
+        *) echo "Invalid option"; exit 1;;
+    esac
+done
+
+# Function to generate random string
+generate_random_string() {
+    local characters="$1"
+    local password=""
+
+    for ((i=0; i<length; i++)); do
+        password+=${characters:RANDOM%${#characters}:1}
+    done
+
+    echo "$password"
+}
+
+characters="abcdefghijklmnopqrstuvwxyz"
+[ "$use_upper" = true ] && characters+="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+[ "$use_numbers" = true ] && characters+="0123456789"
+[ "$use_special" = true ] && characters+="!@#$%^&*()_-+=<>?/{}[]|"
+
+password=$(generate_random_string "$characters")
+
+echo "Generated Password: $password

@@ -1,0 +1,22 @@
+read -p "Enter the path to the domain file: " domain_file
+read -p "Enter the path for the output file: " output_file
+read -p "Enter the number of iterations: " iterations
+
+# Check if the domain file exists
+[ -f "$domain_file" ] || { echo "Error: The specified domain file does not exist."; exit 1; }
+
+# Enumerate subdomains using amass and subfinder
+while read -r domain; do
+    amass enum -d "$domain" -passive -o amass_output.txt
+    amass enum -d "$domain" -o amass_output.txt
+    subfinder -d "$domain" -o subfinder_output.txt
+done < "$domain_file"
+
+# Combine and count unique subdomains
+sort -u amass_output.txt subfinder_output.txt > "$output_file"
+subdomain_count=$(wc -l < "$output_file")
+
+# Clean up temporary files
+rm -f amass_output.txt subfinder_output.txt
+
+echo "Total Unique Subdomains: $subdomain_count"

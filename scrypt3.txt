@@ -1,0 +1,16 @@
+warp-cli connect
+
+echo "enter the path of the vpn file"
+read vpn
+sudo openvpn --config $vpn &
+
+ping 10.10.10.10 -c 3
+
+warp-cli disconnect
+
+echo "enter the user name "
+read username
+echo "enter the ip"
+read ip
+
+ssh $username@$ip
